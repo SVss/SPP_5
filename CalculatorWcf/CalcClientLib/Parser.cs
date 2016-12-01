@@ -33,27 +33,31 @@ namespace CalcClientLib
             using (var reader = new StringReader(_expression))
             {
                 int peek;
+                ExpressionItem previous = null;
                 while ((peek = reader.Peek()) > -1)
                 {
                     char next = (char) peek;
 
                     if (char.IsDigit(next))
                     {
-                        result.Add(ReadOperand(reader));
+                        previous = ReadOperand(reader);
+                        result.Add(previous);
                     }
                     else if (Operation.IsOperator(next))
                     {
-                        var nextOp = (ReadOperator(reader));
+                        var nextOp = ReadOperator(reader, previous);
                         while ( (_evalStack.Count > 0) && (_evalStack.Peek().StackPriority > nextOp.Priority))
                         {
                             result.Add(_evalStack.Pop());
                         }
                         _evalStack.Push(nextOp);
+                        previous = nextOp;
                     }
                     else if (Divisor.IsDivisor(next))
                     {
                         var bracket = Divisor.BySign[next];
                         reader.Read();
+                        previous = bracket;
 
                         if (bracket == Divisor.OpenBracket)
                         {
@@ -111,10 +115,20 @@ namespace CalcClientLib
                 if (itm is Operand) ++counter;
                 else if (itm is Operation)
                 {
-                    counter -= 2;
-                    if (counter < 0)
-                        return false;
-                    ++counter;
+                    if (itm == Operation.Negation)
+                    {
+                        --counter;
+                        if (counter < 0)
+                            return false;
+                        ++counter;
+                    }
+                    else
+                    {
+                        counter -= 2;
+                        if (counter < 0)
+                            return false;
+                        ++counter;
+                    }
                 }
             }
 
@@ -164,10 +178,18 @@ namespace CalcClientLib
             return new Operand(value);
         }
 
-        private static Operation ReadOperator(StringReader reader)
+        private static Operation ReadOperator(StringReader reader, ExpressionItem prevItem)
         {
             char sign = (char) reader.Read();
-            return Operation.BySign[sign];
+            var result = Operation.BySign[sign];
+            if (result == Operation.Substract)
+            {
+                if (prevItem is Divisor || prevItem == null)    // to use negation after operator brackets are necessary
+                {
+                    result = Operation.Negation;
+                }
+            }
+            return result;
         }
 
         private static Divisor ReadDivisor(StringReader reader)

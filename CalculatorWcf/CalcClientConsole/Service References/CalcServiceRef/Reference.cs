@@ -38,6 +38,12 @@ namespace CalcClientConsole.CalcServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Divide", ReplyAction="http://tempuri.org/ICalcService/DivideResponse")]
         System.Threading.Tasks.Task<double> DivideAsync(double a, double b);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Negate", ReplyAction="http://tempuri.org/ICalcService/NegateResponse")]
+        double Negate(double a);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Negate", ReplyAction="http://tempuri.org/ICalcService/NegateResponse")]
+        System.Threading.Tasks.Task<double> NegateAsync(double a);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -97,6 +103,14 @@ namespace CalcClientConsole.CalcServiceRef {
         
         public System.Threading.Tasks.Task<double> DivideAsync(double a, double b) {
             return base.Channel.DivideAsync(a, b);
+        }
+        
+        public double Negate(double a) {
+            return base.Channel.Negate(a);
+        }
+        
+        public System.Threading.Tasks.Task<double> NegateAsync(double a) {
+            return base.Channel.NegateAsync(a);
         }
     }
 }

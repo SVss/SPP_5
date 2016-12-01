@@ -7,7 +7,7 @@ namespace CalcClientConsole
 {
     class DefaultDelegateBuilder: DelegateBuilder
     {
-        private readonly Dictionary<Operation, Func<Expression, Expression, Expression>> _operatorMapper = new Dictionary
+        private readonly Dictionary<Operation, Func<Expression, Expression, Expression>> _binaryOpsMapper = new Dictionary
             <Operation, Func<Expression, Expression, Expression>>()
             {
                 { Operation.Add, Expression.Add },
@@ -16,11 +16,22 @@ namespace CalcClientConsole
                 { Operation.Divide, Expression.Divide }
             };
 
+        private readonly Dictionary<Operation, Func<Expression, Expression>> _unaryOpsMapper = new Dictionary
+            <Operation, Func<Expression, Expression>>()
+            {
+                { Operation.Negation, Expression.Negate }
+            };
+
         // Internal
 
-        protected override Expression GetExpressionForOperator(Operation operation, Expression leftOperand, Expression rightOperand)
+        protected override Expression GetBinaryExpressionForOperator(Operation operation, Expression leftOperand, Expression rightOperand)
         {
-            return _operatorMapper[operation].Invoke(leftOperand, rightOperand);
+            return _binaryOpsMapper[operation].Invoke(leftOperand, rightOperand);
+        }
+
+        protected override Expression GetUnaryExpressionForOperator(Operation operation, Expression operand)
+        {
+            return _unaryOpsMapper[operation].Invoke(operand);
         }
     }
 }

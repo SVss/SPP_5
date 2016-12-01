@@ -4,14 +4,17 @@ namespace CalcClientLib
 {
     public class ExpressionItem
     {
-        public int Priority { get; set; }
-        public int StackPriority { get; set; }
+        public int Priority { get; protected set; }
+        public int StackPriority { get; protected set; }
+        public bool isUnary { get; protected set; } = false;
     }
 
     public class Operation : ExpressionItem
     {
         public static readonly Operation Add = new Operation() { Priority = 1, StackPriority = 2 };
         public static readonly Operation Substract = new Operation() { Priority = 1, StackPriority = 2 };
+
+        public static readonly Operation Negation = new Operation() { Priority = 10, StackPriority = 12, isUnary = true};
 
         public static readonly Operation Multiply = new Operation() { Priority = 3, StackPriority = 4 };
         public static readonly Operation Divide = new Operation() { Priority = 3, StackPriority = 4 };
@@ -46,6 +49,7 @@ namespace CalcClientLib
         {
             {Add, "+"},
             {Substract, "-"},
+            {Negation, "-"},
             {Multiply, "*"},
             {Divide, "/"}
         };

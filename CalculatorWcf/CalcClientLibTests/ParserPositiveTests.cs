@@ -61,5 +61,31 @@ namespace CalcClientLibTests
 
             Assert.AreEqual(expectedResult, actualResult);
         }
+
+        [TestMethod]
+        public void ParserNegation1Test()
+        {
+            string expectedResult = "84 15 + 4 + 4 - 3 * 9 * -";
+
+            Parser parser = new Parser("84+15+4-(-4)*3*9");
+            var result = parser.GetPostfixNotation();
+
+            string actualResult = Parser.ExpressionItemsListToString(result).Replace(',', '.');
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void ParserNegation2Test()
+        {
+            string expectedResult = "2 - - 3 * 2 + - 2 /";
+
+            Parser parser = new Parser("-(-(-2)*3+2)/2");
+            var result = parser.GetPostfixNotation();
+
+            string actualResult = Parser.ExpressionItemsListToString(result).Replace(',', '.');
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }

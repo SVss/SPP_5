@@ -16,5 +16,8 @@ namespace CalcWcfServiceLibrary
 
         [OperationContract]
         double Divide(double a, double b);
+
+        [OperationContract]
+        double Negate(double a);
     }
 }

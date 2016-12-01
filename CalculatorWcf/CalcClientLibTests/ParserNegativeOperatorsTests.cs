@@ -22,13 +22,5 @@ namespace CalcClientLibTests
             Parser parser = new Parser("84+15+4-4*3*9+");
             var result = parser.GetPostfixNotation();
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidExprException))]
-        public void InvalidOperators3Test()
-        {
-            Parser parser = new Parser("84+15+4--4*3*9");
-            var result = parser.GetPostfixNotation();
-        }
     }
 }

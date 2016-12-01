@@ -28,3 +28,7 @@ double Divide(double x, double y)
 			return NAN;
 	}
 }
+
+double Negate(double x) {
+	return -x;
+}

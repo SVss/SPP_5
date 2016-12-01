@@ -26,6 +26,11 @@ namespace CalcWcfServiceLibrary
             return C_Divide(a, b);
         }
 
+        public double Negate(double a)
+        {
+            return C_Negate(a);
+        }
+
         // Internal
 
         [DllImport("CalcLib.dll", EntryPoint = "Add")]
@@ -39,5 +44,9 @@ namespace CalcWcfServiceLibrary
 
         [DllImport("CalcLib.dll", EntryPoint = "Divide")]
         private static extern double C_Divide(double x, double y);
+
+        [DllImport("CalcLib.dll", EntryPoint = "Negate")]
+        private static extern double C_Negate(double x);
+
     }
 }
