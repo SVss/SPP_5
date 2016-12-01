@@ -1,0 +1,5 @@
+:: Reserve url address for non-administrative user
+netsh http add urlacl url=http://+:8733/CalcService user="NT AUTHORITY\ИНТЕРАКТИВНЫЕ"
+
+:: Delete reservation
+netsh http delete urlacl url=http://+:8733/CalcService
