@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Build\Debug\ClientTests\</OutputPath>
-		<IntermediateOutputPath>..\Build\Debug\ClientTests\Obj</IntermediateOutputPath>
+    <IntermediateOutputPath>..\Build\Debug\ClientTests\Obj</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Build\Release\ClientTests\</OutputPath>
-		<IntermediateOutputPath>..\Build\Release\ClientTests\Obj</IntermediateOutputPath>
+    <IntermediateOutputPath>..\Build\Release\ClientTests\Obj</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ParserNegativePowerTests.cs" />
     <Compile Include="ParserNegativeOperatorsTests.cs" />
     <Compile Include="ParserNegativeBracketsTests.cs" />
     <Compile Include="ParserPositiveTests.cs" />

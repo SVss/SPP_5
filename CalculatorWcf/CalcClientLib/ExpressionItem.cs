@@ -18,7 +18,7 @@ namespace CalcClientLib
         public static readonly Operation Divide = new Operation() { Priority = 3, StackPriority = 4 };
 
         public static readonly Operation Negation = new Operation() { Priority = 20, StackPriority = 21, isUnary = true };
-        public static readonly Operation Power = new Operation() { Priority = 14, StackPriority = 13 };
+        public static readonly Operation Power = new Operation() { Priority = 14, StackPriority = 13 }; // right association: Priority > StackPriority
 
         public static readonly Dictionary<char, Operation> BySign =
             new Dictionary<char, Operation>()

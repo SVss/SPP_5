@@ -61,7 +61,7 @@ namespace CalcClientConsole
                 double val = (double) result;
                 if (double.IsNaN(val) || double.IsInfinity(val))
                 {
-                    Console.WriteLine($"{msg}: {Messages.ZeroDivide}");
+                    Console.WriteLine($"{msg}: {Messages.ForbiddenOperation}");
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace CalcClientConsole
 
         private static class Messages
         {
-            public static string ZeroDivide => "Деление на ноль";
+            public static string ForbiddenOperation => "Недопустимая операция"; // zero divide
             public static string IncorrectBrackets => "Неверно расставлены скобки";
             public static string IncorrectExpression => "Неверное выражение";
         }
