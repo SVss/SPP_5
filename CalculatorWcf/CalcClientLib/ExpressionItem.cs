@@ -14,10 +14,11 @@ namespace CalcClientLib
         public static readonly Operation Add = new Operation() { Priority = 1, StackPriority = 2 };
         public static readonly Operation Substract = new Operation() { Priority = 1, StackPriority = 2 };
 
-        public static readonly Operation Negation = new Operation() { Priority = 10, StackPriority = 12, isUnary = true};
-
         public static readonly Operation Multiply = new Operation() { Priority = 3, StackPriority = 4 };
         public static readonly Operation Divide = new Operation() { Priority = 3, StackPriority = 4 };
+
+        public static readonly Operation Negation = new Operation() { Priority = 20, StackPriority = 21, isUnary = true };
+        public static readonly Operation Power = new Operation() { Priority = 14, StackPriority = 13 };
 
         public static readonly Dictionary<char, Operation> BySign =
             new Dictionary<char, Operation>()
@@ -25,7 +26,8 @@ namespace CalcClientLib
             {'+', Add},
             {'-', Substract},
             {'*', Multiply},
-            {'/', Divide}
+            {'/', Divide},
+            {'^', Power}
         };
 
         // Public
@@ -51,7 +53,8 @@ namespace CalcClientLib
             {Substract, "-"},
             {Negation, "-"},
             {Multiply, "*"},
-            {Divide, "/"}
+            {Divide, "/"},
+            {Power, "^" }
         };
     }
 

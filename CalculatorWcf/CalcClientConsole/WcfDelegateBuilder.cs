@@ -15,7 +15,8 @@ namespace CalcClientConsole
             { Operation.Add, "Add" },
             { Operation.Substract, "Substract" },
             { Operation.Multiply, "Multiply" },
-            { Operation.Divide, "Divide" }
+            { Operation.Divide, "Divide" },
+            { Operation.Power, "Power" }
         };
 
         private readonly Dictionary<Operation, string> _unaryOpsMapper = new Dictionary<Operation, string>()

@@ -13,7 +13,8 @@ namespace CalcClientConsole
                 { Operation.Add, Expression.Add },
                 { Operation.Substract, Expression.Subtract },
                 { Operation.Multiply, Expression.Multiply },
-                { Operation.Divide, Expression.Divide }
+                { Operation.Divide, Expression.Divide },
+                { Operation.Power, Expression.Power }
             };
 
         private readonly Dictionary<Operation, Func<Expression, Expression>> _unaryOpsMapper = new Dictionary

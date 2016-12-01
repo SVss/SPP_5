@@ -12,3 +12,6 @@ CALCLIB_EXPORTS double Multiply(double x, double y);
 CALCLIB_EXPORTS double Divide(double x, double y);
 
 CALCLIB_EXPORTS double Negate(double x);
+
+CALCLIB_EXPORTS double Sqrt(double x);
+CALCLIB_EXPORTS double Power(double x, double y);

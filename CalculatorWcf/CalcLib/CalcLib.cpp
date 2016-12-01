@@ -21,14 +21,26 @@ double Divide(double x, double y)
 	if (y != 0) {
 		return x / y;
 	}
-	else {
-		if (x != 0)
-			return INFINITY;
-		else
-			return NAN;
-	}
+	
+	return NAN;
 }
 
 double Negate(double x) {
 	return -x;
+}
+
+double Sqrt(double x) {
+	if (!(x < 0)) {
+		return sqrt(x);
+	}
+
+	return NAN;
+}
+
+double Power(double x, double y) {
+	if (!((x == 0) && !(y > 0))) {
+		return pow(x, y);
+	}
+
+	return NAN;
 }

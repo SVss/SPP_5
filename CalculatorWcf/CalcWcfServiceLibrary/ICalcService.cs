@@ -19,5 +19,11 @@ namespace CalcWcfServiceLibrary
 
         [OperationContract]
         double Negate(double a);
+
+        [OperationContract]
+        double Sqrt(double a);
+
+        [OperationContract]
+        double Power(double a, double b);
     }
 }

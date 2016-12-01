@@ -44,6 +44,18 @@ namespace CalcClientConsole.CalcServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Negate", ReplyAction="http://tempuri.org/ICalcService/NegateResponse")]
         System.Threading.Tasks.Task<double> NegateAsync(double a);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Sqrt", ReplyAction="http://tempuri.org/ICalcService/SqrtResponse")]
+        double Sqrt(double a);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Sqrt", ReplyAction="http://tempuri.org/ICalcService/SqrtResponse")]
+        System.Threading.Tasks.Task<double> SqrtAsync(double a);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Power", ReplyAction="http://tempuri.org/ICalcService/PowerResponse")]
+        double Power(double a, double b);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalcService/Power", ReplyAction="http://tempuri.org/ICalcService/PowerResponse")]
+        System.Threading.Tasks.Task<double> PowerAsync(double a, double b);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -111,6 +123,22 @@ namespace CalcClientConsole.CalcServiceRef {
         
         public System.Threading.Tasks.Task<double> NegateAsync(double a) {
             return base.Channel.NegateAsync(a);
+        }
+        
+        public double Sqrt(double a) {
+            return base.Channel.Sqrt(a);
+        }
+        
+        public System.Threading.Tasks.Task<double> SqrtAsync(double a) {
+            return base.Channel.SqrtAsync(a);
+        }
+        
+        public double Power(double a, double b) {
+            return base.Channel.Power(a, b);
+        }
+        
+        public System.Threading.Tasks.Task<double> PowerAsync(double a, double b) {
+            return base.Channel.PowerAsync(a, b);
         }
     }
 }

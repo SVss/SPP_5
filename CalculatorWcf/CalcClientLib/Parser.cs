@@ -115,7 +115,7 @@ namespace CalcClientLib
                 if (itm is Operand) ++counter;
                 else if (itm is Operation)
                 {
-                    if (itm == Operation.Negation)
+                    if (itm.isUnary)
                     {
                         --counter;
                         if (counter < 0)

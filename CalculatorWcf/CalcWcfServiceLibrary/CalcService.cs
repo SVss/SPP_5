@@ -31,6 +31,16 @@ namespace CalcWcfServiceLibrary
             return C_Negate(a);
         }
 
+        public double Sqrt(double a)
+        {
+            return C_Sqrt(a);
+        }
+
+        public double Power(double a, double b)
+        {
+            return C_Power(a, b);
+        }
+
         // Internal
 
         [DllImport("CalcLib.dll", EntryPoint = "Add")]
@@ -48,5 +58,10 @@ namespace CalcWcfServiceLibrary
         [DllImport("CalcLib.dll", EntryPoint = "Negate")]
         private static extern double C_Negate(double x);
 
+        [DllImport("CalcLib.dll", EntryPoint = "Sqrt")]
+        private static extern double C_Sqrt(double x);
+
+        [DllImport("CalcLib.dll", EntryPoint = "Power")]
+        private static extern double C_Power(double x, double y);
     }
 }

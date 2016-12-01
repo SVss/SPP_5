@@ -39,9 +39,9 @@ namespace CalcClientLibTests
         [TestMethod]
         public void ParserBracketsTest()
         {
-            string expectedResult = "5 3 + 3 * 8 2 - 2 / - 2 /";
+            string expectedResult = "5 3 - + - 3 * 8 2 - 2 / - 2 /";
 
-            Parser parser = new Parser("((5+3)*3-(8-2)/2)/2");
+            Parser parser = new Parser("( -(5 + (-3) )*3 - (8-2) / 2 ) / 2");
             var result = parser.GetPostfixNotation();
 
             string actualResult = Parser.ExpressionItemsListToString(result);
@@ -81,6 +81,19 @@ namespace CalcClientLibTests
             string expectedResult = "2 - - 3 * 2 + - 2 /";
 
             Parser parser = new Parser("-(-(-2)*3+2)/2");
+            var result = parser.GetPostfixNotation();
+
+            string actualResult = Parser.ExpressionItemsListToString(result).Replace(',', '.');
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void ParserPowerTest()
+        {
+            string expectedResult = "3 2 3 4 ^ ^ * 1 +";
+
+            Parser parser = new Parser("3*2^3^4 + 1");
             var result = parser.GetPostfixNotation();
 
             string actualResult = Parser.ExpressionItemsListToString(result).Replace(',', '.');
