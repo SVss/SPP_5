@@ -9,9 +9,11 @@ namespace CalcClientLib
     {
         private readonly Stack<ExpressionItem> _evalStack = new Stack<ExpressionItem>();
         private readonly string _expression;
+        int _validationCounter = 0;
+        private List<ExpressionItem> _result = null;
 
         // Public
-        
+
         public Parser(string expression)
         {
             _expression = expression.Replace(" ", string.Empty).Replace('.', ',');    // <= to avoid FormatException;
@@ -20,12 +22,11 @@ namespace CalcClientLib
         /// <summary>
         /// Parse string expression to List of <code>ExpressionItems</code> in postfix notation.
         /// </summary>
-        /// <param name="expression"></param>
         /// <returns>List of <code>ExpressionItems</code> in postfix notation</returns>
         /// <exception cref="InvalidOperationException">Invalid expression</exception>
         public List<ExpressionItem> GetPostfixNotation()
         {
-            List<ExpressionItem> result = new List<ExpressionItem>();
+            _result = new List<ExpressionItem>();
 
             using (var reader = new StringReader(_expression))
             {
@@ -38,22 +39,21 @@ namespace CalcClientLib
                     if (char.IsDigit(next))
                     {
                         previous = ReadOperand(reader);
-                        result.Add(previous);
+                        AddItem(previous);
                     }
                     else if (Operation.IsOperator(next))
                     {
                         var nextOp = ReadOperator(reader, previous);
                         while ( (_evalStack.Count > 0) && (_evalStack.Peek().StackPriority > nextOp.Priority))
                         {
-                            result.Add(_evalStack.Pop());
+                            AddItem(_evalStack.Pop());
                         }
                         _evalStack.Push(nextOp);
                         previous = nextOp;
                     }
                     else if (Divisor.IsDivisor(next))
                     {
-                        var bracket = Divisor.BySign[next];
-                        reader.Read();
+                        var bracket = ReadDivisor(reader);
                         previous = bracket;
 
                         if (bracket == Divisor.OpenBracket)
@@ -66,7 +66,7 @@ namespace CalcClientLib
                             {
                                 while (_evalStack.Peek() != Divisor.OpenBracket)
                                 {
-                                    result.Add(_evalStack.Pop());
+                                    AddItem(_evalStack.Pop());
                                 }
                                 _evalStack.Pop();
                             }
@@ -86,17 +86,17 @@ namespace CalcClientLib
                 {
                     var tmp = _evalStack.Pop();
                     if (!(tmp is Divisor))
-                        result.Add(tmp);
+                        AddItem(tmp);
                     else
                         throw new InvalidBracketsException();
                 }
 
-                if (!IsValidExpression(result))
+                if (!IsValidExpression(_result))
                 {
                     throw new InvalidExprException();
                 }
 
-                return result;
+                return _result;
             }
         }
 
@@ -113,33 +113,33 @@ namespace CalcClientLib
 
         // Internal
 
-        private static bool IsValidExpression(List<ExpressionItem> expr)
+        private void AddItem(ExpressionItem itm)
         {
-            int counter = 0;
-
-            foreach (var itm in expr)
+            if (itm is Operand) ++_validationCounter;
+            else if (itm is Operation)
             {
-                if (itm is Operand) ++counter;
-                else if (itm is Operation)
+                if (itm.isUnary)
                 {
-                    if (itm.isUnary)
-                    {
-                        --counter;
-                        if (counter < 0)
-                            return false;
-                        ++counter;
-                    }
-                    else
-                    {
-                        counter -= 2;
-                        if (counter < 0)
-                            return false;
-                        ++counter;
-                    }
+                    --_validationCounter;
+                    if (_validationCounter < 0)
+                        throw new InvalidExprException();
+                    ++_validationCounter;
+                }
+                else
+                {
+                    _validationCounter -= 2;
+                    if (_validationCounter < 0)
+                        throw new InvalidExprException();
+                    ++_validationCounter;
                 }
             }
 
-            return (counter == 1);
+            _result.Add(itm);
+        }
+
+        private bool IsValidExpression(List<ExpressionItem> expr)
+        {
+            return (_validationCounter == 1);
         }
 
         private static Operand ReadOperand(StringReader reader)
