@@ -9,8 +9,9 @@ namespace CalcClientConsole
     {
         static void Main(string[] args)
         {
-            string input = PromptReadResult();
+            PrintHelp();
 
+            string input = ReadInput("Enter expression:");
             while (input != "q")
             {
                 try
@@ -44,14 +45,43 @@ namespace CalcClientConsole
                 }
 
                 Console.WriteLine();
-                input = PromptReadResult();
+                input = ReadInput("Enter expression:");
             }
         }
 
-        private static string PromptReadResult(string prompt = "Enter expression:")
+        private static readonly Dictionary<string, Action> PromptDict = new Dictionary<string, Action>()
         {
-            Console.WriteLine("Enter your expression (or 'q' to exit):");
-            return Console.ReadLine();
+            { "help", PrintHelp }
+        };
+
+        private static void PrintHelp()
+        {
+            Console.Write("\n[Expression Caculator help]\n");
+
+            Console.Write("Allowed operations:\n");
+            Console.Write("\t+\tsum\n\t-\tnegate\n\t*\tmul\n\t/\tdiv\n\t^\tpow\n\t#\tsqrt\n");
+
+            Console.Write("\nCommands:\n\tq\tquit\n\n");
+
+            Console.Write("Non-numeric symbols (except allowed operations) are not allowed.\n\n");
+        }
+
+        private static string ReadInput(string prompt = ">")
+        {
+            string input = GetPromptInput(prompt);
+            while (input != null && PromptDict.ContainsKey(input))
+            {
+                PromptDict[input].Invoke();
+                input = GetPromptInput(prompt);
+            }
+
+            return input;
+        }
+
+        private static string GetPromptInput(string prompt)
+        {
+            Console.Write($"{prompt} ");
+            return Console.ReadLine()?.Trim();
         }
 
         private static void WriteResult(object result, string msg = "Result")
@@ -72,9 +102,9 @@ namespace CalcClientConsole
 
         private static class Messages
         {
-            public static string ForbiddenOperation => "Forbidden operation"; // zero divide
-            public static string IncorrectBrackets => "Incorrect brackets";
-            public static string IncorrectExpression => "Incorrect expression";
+            public static string ForbiddenOperation => "Forbidden operation. Incorrect expression. Type \"help\" for moer inforation."; // zero divide
+            public static string IncorrectBrackets => "Incorrect brackets.";
+            public static string IncorrectExpression => "Incorrect expression. Type \"help\" for more inforation.";
         }
     }
 }
