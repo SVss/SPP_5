@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -13,11 +14,7 @@ namespace CalcClientLib
         
         public Parser(string expression)
         {
-            string s = expression.Replace(" ", string.Empty).Replace('.', ',');    // <= to avoid FormatException;
-            if (IsValidBrackets(s))
-                this._expression = s;
-            else 
-                throw new InvalidBracketsException();
+            _expression = expression.Replace(" ", string.Empty).Replace('.', ',');    // <= to avoid FormatException;
         }
 
         /// <summary>
@@ -65,12 +62,18 @@ namespace CalcClientLib
                         }
                         else if (bracket == Divisor.CloseBracket)
                         {
-                            // never throws InvalidOperationException if _evalStack is empty <= invalid brackets (checked on initialization)
-                            while (_evalStack.Peek() != Divisor.OpenBracket)
+                            try
                             {
-                                result.Add(_evalStack.Pop());
+                                while (_evalStack.Peek() != Divisor.OpenBracket)
+                                {
+                                    result.Add(_evalStack.Pop());
+                                }
+                                _evalStack.Pop();
                             }
-                            _evalStack.Pop();
+                            catch (InvalidOperationException)
+                            {
+                                throw new InvalidBracketsException();
+                            }
                         }
                     }
                     else
@@ -79,9 +82,13 @@ namespace CalcClientLib
                     }
                 }
 
-                while (_evalStack.Count > 0)    // brackets are valid
+                while (_evalStack.Count > 0)
                 {
-                    result.Add(_evalStack.Pop());
+                    var tmp = _evalStack.Pop();
+                    if (!(tmp is Divisor))
+                        result.Add(tmp);
+                    else
+                        throw new InvalidBracketsException();
                 }
 
                 if (!IsValidExpression(result))
@@ -133,22 +140,6 @@ namespace CalcClientLib
             }
 
             return (counter == 1);
-        }
-
-        private static bool IsValidBrackets(string s)
-        {
-            int br = 0;
-            foreach (char c in s)
-            {
-                if (c == '(')
-                    ++br;
-                else if (c == ')')
-                    --br;
-
-                if (br < 0)
-                    return false;
-            }
-            return (br == 0);
         }
 
         private static Operand ReadOperand(StringReader reader)
