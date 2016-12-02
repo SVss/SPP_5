@@ -16,12 +16,13 @@ namespace CalcClientConsole
             { Operation.Substract, "Substract" },
             { Operation.Multiply, "Multiply" },
             { Operation.Divide, "Divide" },
-            { Operation.Power, "Power" }
+            { Operation.Power, "Power" },
         };
 
         private readonly Dictionary<Operation, string> _unaryOpsMapper = new Dictionary<Operation, string>()
         {
-            { Operation.Negation, "Negate" }
+            { Operation.Negation, "Negate" },
+            { Operation.Sqrt, "Sqrt" }
         };
 
         // Public

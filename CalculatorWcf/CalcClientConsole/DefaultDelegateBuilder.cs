@@ -32,6 +32,9 @@ namespace CalcClientConsole
 
         protected override Expression GetUnaryExpressionForOperator(Operation operation, Expression operand)
         {
+            if (operation == Operation.Sqrt)
+                return Expression.Call(null, typeof(Math).GetMethod("Sqrt"), operand);
+
             return _unaryOpsMapper[operation].Invoke(operand);
         }
     }

@@ -54,7 +54,7 @@ namespace CalcClientConsole
             return Console.ReadLine();
         }
 
-        private static void WriteResult(object result, string msg = "Результат")
+        private static void WriteResult(object result, string msg = "Result")
         {
             if (result is Double)
             {
@@ -72,9 +72,9 @@ namespace CalcClientConsole
 
         private static class Messages
         {
-            public static string ForbiddenOperation => "Недопустимая операция"; // zero divide
-            public static string IncorrectBrackets => "Неверно расставлены скобки";
-            public static string IncorrectExpression => "Неверное выражение";
+            public static string ForbiddenOperation => "Forbidden operation"; // zero divide
+            public static string IncorrectBrackets => "Incorrect brackets";
+            public static string IncorrectExpression => "Incorrect expression";
         }
     }
 }

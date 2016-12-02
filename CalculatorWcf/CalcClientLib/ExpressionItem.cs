@@ -20,6 +20,8 @@ namespace CalcClientLib
         public static readonly Operation Negation = new Operation() { Priority = 20, StackPriority = 21, isUnary = true };
         public static readonly Operation Power = new Operation() { Priority = 14, StackPriority = 13 }; // right association: Priority > StackPriority
 
+        public static readonly Operation Sqrt = new Operation() { Priority = 20, StackPriority = 21, isUnary = true };
+
         public static readonly Dictionary<char, Operation> BySign =
             new Dictionary<char, Operation>()
         {
@@ -27,7 +29,8 @@ namespace CalcClientLib
             {'-', Substract},
             {'*', Multiply},
             {'/', Divide},
-            {'^', Power}
+            {'^', Power},
+            {'#', Sqrt }
         };
 
         // Public
@@ -54,7 +57,8 @@ namespace CalcClientLib
             {Negation, "-"},
             {Multiply, "*"},
             {Divide, "/"},
-            {Power, "^" }
+            {Power, "^" },
+            {Sqrt, "#" }
         };
     }
 
