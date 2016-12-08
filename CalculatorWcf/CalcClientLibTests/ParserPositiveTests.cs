@@ -26,12 +26,12 @@ namespace CalcClientLibTests
         [TestMethod]
         public void ParserDoubleTest()
         {
-            string expectedResult = "25 3.3 / 1.34 2.56 * + 1.49 + 2.36 1.48 / +";
+            string expectedResult = "25 3,3 / 1,34 2,56 * + 1,49 + 2,36 1,48 / +";
 
-            Parser parser = new Parser("25/3.3+1.34*2.56+1.49+2.36/1.48");
+            Parser parser = new Parser("25/3,3+1,34*2,56+1,49+2,36/1,48");
             var result = parser.GetPostfixNotation();
             
-            string actualResult = Parser.ExpressionItemsListToString(result).Replace(',', '.');
+            string actualResult = Parser.ExpressionItemsListToString(result);
 
             Assert.AreEqual(expectedResult, actualResult);
         }
@@ -52,12 +52,12 @@ namespace CalcClientLibTests
         [TestMethod]
         public void ParserBracketsDoubleTest()
         {
-            string expectedResult = "25 3 / 1.34 2.56 1.49 + * + 2.36 1.48 / +";
+            string expectedResult = "25 3 / 1,34 2,56 1,49 + * + 2,36 1,48 / +";
 
-            Parser parser = new Parser("25/3+1.34*(2.56+1.49)+2.36/1.48");
+            Parser parser = new Parser("25/3+1,34*(2,56+1,49)+2,36/1,48");
             var result = parser.GetPostfixNotation();
 
-            string actualResult = Parser.ExpressionItemsListToString(result).Replace(',', '.');
+            string actualResult = Parser.ExpressionItemsListToString(result);
 
             Assert.AreEqual(expectedResult, actualResult);
         }

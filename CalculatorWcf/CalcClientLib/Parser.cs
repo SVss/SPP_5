@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace CalcClientLib
 
         public Parser(string expression)
         {
-            _expression = expression.Replace(" ", string.Empty).Replace('.', ',');    // <= to avoid FormatException;
+            _expression = expression;
         }
 
         /// <summary>
@@ -38,6 +39,9 @@ namespace CalcClientLib
 
                     if (char.IsDigit(next))
                     {
+                        if (previous is Operand)
+                            throw new InvalidExprException("Unexpexted token.");
+
                         previous = ReadOperand(reader);
                         AddItem(previous);
                     }
@@ -75,6 +79,10 @@ namespace CalcClientLib
                                 throw new InvalidBracketsException();
                             }
                         }
+                    }
+                    else if (char.IsWhiteSpace(next))
+                    {
+                        reader.Read();
                     }
                     else
                     {
@@ -151,7 +159,7 @@ namespace CalcClientLib
             while (isOk)
             {
                 char next = (char) peek;
-                if (char.IsDigit(next) || next == ',')
+                if (char.IsDigit(next) || next == CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator.ToCharArray()[0])
                 {
                     valueStr.Append(next);
                     reader.Read();
@@ -164,9 +172,15 @@ namespace CalcClientLib
                     isOk = false;
                 }
             }
-
-            double value = double.Parse(valueStr.ToString());
-            return new Operand(value);
+            try
+            {
+                double value = double.Parse(valueStr.ToString());
+                return new Operand(value);
+            }
+            catch (FormatException)
+            {
+                throw new InvalidExprException();
+            }
         }
 
         private static Operation ReadOperator(StringReader reader, ExpressionItem prevItem)
