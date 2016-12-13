@@ -38,7 +38,7 @@ double Sqrt(double x) {
 }
 
 double Power(double x, double y) {
-	if (!((x == 0) && !(y > 0))) {
+	if (x != 0 || y > 0) {
 		return pow(x, y);
 	}
 

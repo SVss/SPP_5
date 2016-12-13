@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 using CalcClientConsole.CalcServiceRef;
 using CalcClientLib;
@@ -29,7 +28,7 @@ namespace CalcClientConsole
 
         public WcfDelegateBuilder(CalcServiceClient client)
         {
-            this._client = client;
+            _client = client;
         }
 
         // Internal

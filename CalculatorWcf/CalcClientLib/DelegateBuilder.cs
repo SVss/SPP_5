@@ -14,11 +14,9 @@ namespace CalcClientLib
                 return Expression.Lambda(Expression.Return(Expression.Label(), Expression.Constant(0.0))).Compile();
 
             Stack<Expression> helpStack = new Stack<Expression>();
-            Stack<ExpressionItem> unaryStack = new Stack<ExpressionItem>();
 
-            for (int i = 0; i < exprList.Count; i++)
+            foreach (ExpressionItem itm in exprList)
             {
-                ExpressionItem itm = exprList[i];
                 if (itm is Operand)
                 {
                     helpStack.Push(Expression.Constant(
@@ -27,7 +25,7 @@ namespace CalcClientLib
                 else if (itm is Operation)
                 {
                     Expression tmp;
-                    if (itm.isUnary)
+                    if (itm.IsUnary)
                     {
                         tmp = helpStack.Pop();
                         tmp = GetUnaryExpressionForOperator((Operation)itm, tmp);
@@ -48,15 +46,10 @@ namespace CalcClientLib
 
         // Internal
 
-        protected virtual Expression GetBinaryExpressionForOperator(Operation operation, Expression leftOperand, Expression rightOperand)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract Expression GetBinaryExpressionForOperator(Operation operation, Expression leftOperand,
+            Expression rightOperand);
 
-        protected virtual Expression GetUnaryExpressionForOperator(Operation operation, Expression operand)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract Expression GetUnaryExpressionForOperator(Operation operation, Expression operand);
 
     }
 }

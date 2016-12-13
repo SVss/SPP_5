@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace CalcClientLib
 {
@@ -6,7 +7,7 @@ namespace CalcClientLib
     {
         public int Priority { get; protected set; }
         public int StackPriority { get; protected set; }
-        public bool isUnary { get; protected set; } = false;
+        public bool IsUnary { get; protected set; }
     }
 
     public class Operation : ExpressionItem
@@ -17,10 +18,10 @@ namespace CalcClientLib
         public static readonly Operation Multiply = new Operation() { Priority = 3, StackPriority = 4 };
         public static readonly Operation Divide = new Operation() { Priority = 3, StackPriority = 4 };
 
-        public static readonly Operation Negation = new Operation() { Priority = 20, StackPriority = 21, isUnary = true };
+        public static readonly Operation Negation = new Operation() { Priority = 20, StackPriority = 21, IsUnary = true };
         public static readonly Operation Power = new Operation() { Priority = 14, StackPriority = 13 }; // right association: Priority > StackPriority
 
-        public static readonly Operation Sqrt = new Operation() { Priority = 20, StackPriority = 21, isUnary = true };
+        public static readonly Operation Sqrt = new Operation() { Priority = 20, StackPriority = 21, IsUnary = true };
 
         public static readonly Dictionary<char, Operation> BySign =
             new Dictionary<char, Operation>()
@@ -100,16 +101,16 @@ namespace CalcClientLib
 
     public class Operand : ExpressionItem   // never pushed into stack
     {
-        public double Value { get; set; }
+        public double Value { get; }
 
         public Operand(double value)
         {
-            this.Value = value;
+            Value = value;
         }
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

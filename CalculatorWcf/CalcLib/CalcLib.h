@@ -1,17 +1,17 @@
 #pragma once
 
 #ifdef CALCLIB_EXPORTS
-#define CALCLIB_EXPORTS extern "C" __declspec(dllexport)
+#define EXP extern "C" __declspec(dllexport)
 #else
-#define CALCLIB_EXPORTS extern "C" __declspec(dllexport)
+#define EXP extern "C" __declspec(dllimport)
 #endif
 
-CALCLIB_EXPORTS double Add(double x, double y);
-CALCLIB_EXPORTS double Substract(double x, double y);
-CALCLIB_EXPORTS double Multiply(double x, double y);
-CALCLIB_EXPORTS double Divide(double x, double y);
+EXP double Add(double x, double y);
+EXP double Substract(double x, double y);
+EXP double Multiply(double x, double y);
+EXP double Divide(double x, double y);
 
-CALCLIB_EXPORTS double Negate(double x);
+EXP double Negate(double x);
 
-CALCLIB_EXPORTS double Sqrt(double x);
-CALCLIB_EXPORTS double Power(double x, double y);
+EXP double Sqrt(double x);
+EXP double Power(double x, double y);

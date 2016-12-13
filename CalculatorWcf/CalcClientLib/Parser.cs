@@ -10,8 +10,8 @@ namespace CalcClientLib
     {
         private readonly Stack<ExpressionItem> _evalStack = new Stack<ExpressionItem>();
         private readonly string _expression;
-        int _validationCounter = 0;
-        private List<ExpressionItem> _result = null;
+        int _validationCounter;
+        private List<ExpressionItem> _result;
 
         // Public
 
@@ -24,7 +24,8 @@ namespace CalcClientLib
         /// Parse string expression to List of <code>ExpressionItems</code> in postfix notation.
         /// </summary>
         /// <returns>List of <code>ExpressionItems</code> in postfix notation</returns>
-        /// <exception cref="InvalidOperationException">Invalid expression</exception>
+        /// <exception cref="InvalidExprException"></exception>
+        /// <exception cref="InvalidBracketsException"></exception>
         public List<ExpressionItem> GetPostfixNotation()
         {
             _result = new List<ExpressionItem>();
@@ -99,7 +100,7 @@ namespace CalcClientLib
                         throw new InvalidBracketsException();
                 }
 
-                if (!IsValidExpression(_result))
+                if (_validationCounter != 1)
                 {
                     throw new InvalidExprException();
                 }
@@ -113,7 +114,7 @@ namespace CalcClientLib
             var builder = new StringBuilder();
             foreach (var itm in exprList)
             {
-                builder.Append(string.Format("{0} ", itm.ToString()));
+                builder.Append($"{itm} ");
             }
 
             return builder.ToString().TrimEnd();
@@ -126,7 +127,7 @@ namespace CalcClientLib
             if (itm is Operand) ++_validationCounter;
             else if (itm is Operation)
             {
-                if (itm.isUnary)
+                if (itm.IsUnary)
                 {
                     --_validationCounter;
                     if (_validationCounter < 0)
@@ -143,11 +144,6 @@ namespace CalcClientLib
             }
 
             _result.Add(itm);
-        }
-
-        private bool IsValidExpression(List<ExpressionItem> expr)
-        {
-            return (_validationCounter == 1);
         }
 
         private static Operand ReadOperand(StringReader reader)
